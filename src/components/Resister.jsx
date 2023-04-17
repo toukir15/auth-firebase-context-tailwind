@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "./providers/AuthProvider";
 
 const Resister = () => {
+  const { createUser } = useContext(AuthContext);
   const handleResister = (event) => {
     event.preventDefault();
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+    createUser(email, password)
+      .then((result) => {
+        const loggedUser = result.user;
+        console.log(loggedUser);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -53,9 +64,9 @@ const Resister = () => {
                 className="input input-bordered"
               />
               <label className="label">
-                <a href="#" className="label-text-alt link link-hover">
-                  Forgot password?
-                </a>
+                <Link to="/login" className="label-text-alt link link-hover">
+                  Already have an account?
+                </Link>
               </label>
             </div>
             <div className="form-control mt-6">
